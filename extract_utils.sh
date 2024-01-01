@@ -1480,7 +1480,6 @@ function append_firmware_calls_to_makefiles() {
     for ((i = 1; i < COUNT + 1; i++)); do
         local DST_FILE="${DEST_LIST[$i - 1]}"
         local SPEC_ARGS="${ARGS_LIST[$i - 1]}"
-        local SHA1=$(get_hash "$ANDROID_ROOT"/"$OUTDIR"/radio/"$DST_FILE")
         local DST_FILE_NAME="${DST_FILE%.img}"
         local ARGS=(${SPEC_ARGS//;/ })
         LINEEND=" \\"
@@ -1493,7 +1492,7 @@ function append_firmware_calls_to_makefiles() {
                 printf '    %s%s\n' "$DST_FILE_NAME" "$LINEEND" >>"$BOARDMK"
             fi
         done
-        printf '%s\n' "\$(call add-radio-file-sha1-checked,radio/$DST_FILE,$SHA1)" >>"$ANDROIDMK"
+        printf '%s\n' "\$(call add-radio-file,radio/$DST_FILE)" >>"$ANDROIDMK"
     done
     printf '\n' >>"$ANDROIDMK"
 }
